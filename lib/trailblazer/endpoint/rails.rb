@@ -17,6 +17,7 @@ module Trailblazer::Endpoint::Handlers
       ->(m) do
         m.not_found       { |result| controller.head 404 }
         m.unauthenticated { |result| controller.head 401 }
+        m.unauthorized    { |result| controller.head 403 }
         m.present         { |result| controller.render json: result["representer.serializer.class"].new(result['model']), status: 200 }
         m.created         { |result| controller.head 201, location: "#{@path}/#{result["model"].id}" }#, result["representer.serializer.class"].new(result["model"]).to_json
         m.success         { |result| controller.head 200, location: "#{@path}/#{result["model"].id}" }
